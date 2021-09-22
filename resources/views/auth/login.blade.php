@@ -6,7 +6,7 @@
     <div class="row mt-3">
         <div class="col-6 my-auto">
             <div class="d-flex justify-content-end flex-column align-items-end">
-                <h1 class="font-weight-bolder w-100">MarkIt Registration</h1>
+                <h1 class="font-weight-bolder w-100">Marking Login</h1>
                 <small class="d-block w-100 text-left">Join marks online management system.</small>
             </div>
         </div>

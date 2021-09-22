@@ -26,7 +26,7 @@
             <form action="{{ url()->current() }}" method="GET">
                 <label for="semester" class="font-weight-bold d-block">Semester: </label>
                 <div class="d-inline-block form-check">
-                    <input checkedid="all" class="form-check-input" name="semester" value="" type="radio">
+                    <input checked id="all" class="form-check-input" name="semester" value="" type="radio">
                     <label class="form-check-label" for="all">All</label>
                 </div>
                 <div class="d-inline-block form-check">
@@ -136,7 +136,7 @@
                             <li class="list-group-item"><a href="{{ url()->full() }}&module={{ $module->id }}"
                                     class="btn btn-link">{{ $module->name }}</a></li>
                         @empty
-                            <p>No modules here yet. <a
+                            <p>No modules found. <a
                                     href="{{ route(auth()->user()?->getUserType() . '.module.create') }}"
                                     class="btn btn-link">New module</a>
                         @endforelse
@@ -217,7 +217,7 @@
                             class="btn btn-sm text-warning btn-primary">More</a></td>
                 </tr>
             @empty
-                <p class="p-2">Marks not recorded yet. @guest('student') <a
+                <p class="p-2">Marks not found. @guest('student') <a
                             href="{{ route(auth()->user()?->getUserType() . '.marks.create') }}?module={{ $module->id }}"
                         class="btn btn-link">Record new marks</a> @endguest</p>
             @endforelse

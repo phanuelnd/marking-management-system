@@ -154,7 +154,7 @@ class StudentController extends Controller
     {
         $student->delete();
 
-        return back()->with('success', 'Student deleted!');
+        return redirect()->route('admin.student.index')->with('success', 'Student deleted!');
     }
 
 

@@ -15,13 +15,14 @@
 
 <body>
     <nav class="navbar sticky-top bg-light px-md-5 flex-sm-column flex-md-row navbar-light navbar-expand-sm justify-content-between">
-        <a href="/" class="navbar-brand logo font-weight-bolder mx-2">Markit</a>
+        <a href="/" class="navbar-brand logo mx-2">UR-Marking</a>
         <ul class="navbar-nav">
             @auth
                 <li class="nav-item"><a href="{{ route(auth()->user()?->getUserType() . '.dashboard') }}" class="nav-link">Dashboard</a></li>
-            @endauth
-            @auth('student')
-                <li class="nav-item"><a href="{{ route(auth()->user()?->getUserType() . '.marks.index') }}" class="nav-link font-weight-bold btn btn-success align-self-center my-1 btn-sm py-1">Marks</a></li>
+                @endauth
+                @auth('student')
+                <li class="nav-item"><a href="{{ route(auth()->user()?->getUserType() . '.marks.index') }}" class="nav-link">My marks</a></li>
+                {{-- <li class="nav-item"><a href="{{ route(auth()->user()?->getUserType() . '.marks.index') }}" class="nav-link align-self-center font-weight-bold mt-2 btn-sm py-1">See Marks</a></li> --}}
             @endauth
         </ul>
         <ul class="navbar-nav @auth
@@ -63,7 +64,7 @@
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">{{ auth()->user()->name }}</a>
                     <div  style="max-width: fit-content;" class="dropdown-menu">
                         <div class="dropdwon-item d-flex mb-1 px-3">
-                            <a href="#" class="text-decoration-none btn btn-block btn-outline-primary">
+                            <a href="{{ route(auth()->user()?->getUserType() . '.account') }}" class="text-decoration-none btn btn-block btn-outline-primary">
                                 <img src="/icons/person.svg" alt=""> Account</a>
                         </div>
                         <div class="dropdwon-item px-3">
@@ -85,7 +86,7 @@
             @auth
                 
             <p class="m-2">
-                <a href="{{ url()->previous() }}" class="text-uppercase float-right btn-dark btn-sm">Back</a>
+                <a href="{{ url()->previous() }}" class="text-uppercase float-right btn-outline-dark btn-sm">Back</a>
             </p>
                 @endauth
             @section('content')

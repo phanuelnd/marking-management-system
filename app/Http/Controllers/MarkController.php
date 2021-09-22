@@ -215,7 +215,6 @@ class MarkController extends Controller
     public function destroy(Mark $mark)
     {
         $mark->delete();
-
-        return back()->with('success', 'Marks deleted!');
+        return redirect()->route('admin.marks.index')->with('success', 'Marks deleted!');
     }
 }
