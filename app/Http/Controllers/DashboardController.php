@@ -82,6 +82,8 @@ class DashboardController extends Controller
             $teachers = Teacher::hasStudent(auth()->user()->id);
         }
 
+        // dd('')
+
         return view('admin.dashboard', [
             'modules' => $modules,
             'foculties' => $foculties,

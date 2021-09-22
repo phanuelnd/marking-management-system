@@ -30,9 +30,9 @@
             </div>
             <div class="d-flex align-items-center">
                 <span class="font-weight-bold">Teacher:</span>
-                @auth('admin')
-                <a href="{{route(auth()->user()?->getUserType() . '.teacher.show', $module->teacher)}}" class="btn btn-link">{{$module->teacher->name}}</a>
-                @endauth
+                
+                <a @guest('teacher') href="{{route(auth()->user()?->getUserType() . '.teacher.show', $module->teacher)}}" @endguest class="btn btn-link">{{$module->teacher->name}}</a>
+                
             </div>
         </div>
         

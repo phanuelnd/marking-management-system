@@ -134,8 +134,9 @@ Route::name('admin.')->prefix('admin')->middleware(['auth:admin'])->group(functi
 
 Route::name('teacher.')->prefix('teacher')->middleware('auth:teacher')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     // RESOURCES
-    Route::resource('student', StudentController::class)->only(['show']);
+    Route::get('/student/{student}', [StudentController::class, 'show'])->name('student.show');
     Route::get('/student', [StudentController::class, 'teacherStudents'])->name('student.index');
     Route::resource('module', ModuleController::class)->only(['show', 'index']);
     Route::resource('marks', MarkController::class);
@@ -154,9 +155,10 @@ Route::name('teacher.')->prefix('teacher')->middleware('auth:teacher')->group(fu
 Route::name('student.')->middleware('auth:student')->prefix('student')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::resource('teacher', TeacherController::class)->only(['show']);
     Route::resource('module', ModuleController::class)->only(['show', 'index']);
     Route::resource('marks', MarkController::class)->only(['index', 'show']);
-    Route::resource('foculty', MarkController::class)->only(['show']);
+    Route::resource('foculty', FocultyController::class)->only(['show']);
 
     Route::post('/logout', [LogoutController::class, 'studentLogout'])->name('logout')->middleware('auth:student');
 });

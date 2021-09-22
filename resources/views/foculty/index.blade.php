@@ -5,7 +5,9 @@
 @section('content')
 
 <p>
+    @guest('student')
     <a href="{{ route(auth()->user()?->getUserType() . '.foculty.index') }}" class="text-primary">Foculties</a>
+    @endguest
 </p>
 
 <div class="d-flex justify-content-between align-items-center">

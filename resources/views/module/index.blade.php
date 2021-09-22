@@ -5,12 +5,16 @@
 @section('content')
 <p>
     @if ($teacher)
+        @guest('student')
         <a href="{{ route(auth()->user()?->getUserType() . '.teacher.index') }}" class="text-primary">Teachers</a>
-        ><a href="{{ route(auth()->user()?->getUserType() . '.teacher.show', $teacher) }}" class="text-primary">{{$teacher->name}}</a>
-        ><a href="{{ route(auth()->user()?->getUserType() . '.module.index') }}?teacher={{$teacher->id}}" class="text-primary">Modules</a>
+        >
+        @endguest
+        <a href="{{ route(auth()->user()?->getUserType() . '.teacher.show', $teacher) }}" class="text-primary">{{$teacher->name}}</a>
+        >
+        <a href="{{ route(auth()->user()?->getUserType() . '.module.index') }}?teacher={{$teacher->id}}" class="text-primary">Modules</a>
     @elseif($foculty)
-        <a href="{{ route(auth()->user()?->getUserType() . '.foculty.index') }}" class="text-primary">Foculties</a>
-        ><a href="{{ route(auth()->user()?->getUserType() . '.foculty.show', $foculty) }}" class="text-primary">{{$foculty->name}}</a>
+        @guest('student')<a href="{{ route(auth()->user()?->getUserType() . '.foculty.index') }}" class="text-primary">Foculties</a>
+        >@endguest<a href="{{ route(auth()->user()?->getUserType() . '.foculty.show', $foculty) }}" class="text-primary">{{$foculty->name}}</a>
         ><a href="{{ route(auth()->user()?->getUserType() . '.module.index') }}?foculty={{$foculty->id}}" class="text-primary">Modules</a>
     @else
         <a href="{{ route(auth()->user()?->getUserType() . '.module.index') }}" class="text-primary">Modules</a>

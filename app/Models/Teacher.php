@@ -79,12 +79,18 @@ class Teacher extends Authenticatable
 
     public static function hasStudent(int $student_id)
     {
-        return Teacher::whereHas('modules', function (Builder $query) use ($student_id) {
-            $query->whereHas('foculty', function (Builder $query) use ($student_id) {
-                $query->whereHas('students', function (Builder $query) use ($student_id) {
-                    $query->where('id', $student_id);
-                });
-            });
-        });
+        return Teacher::inFoculty(Student::find($student_id)->foculty->id);
+    }
+
+    public function getUserType()
+    {
+        $name = explode('\\', strtolower(__CLASS__));
+        return end($name);
+    }
+
+    public static function inFoculty(int $foculty_id)
+    {
+        return Teacher::join('modules', 'teachers.id', '=', 'modules.teacher_id')
+            ->where('modules.foculty_id', $foculty_id)->select('teachers.*');
     }
 }

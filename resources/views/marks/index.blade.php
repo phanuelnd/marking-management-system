@@ -15,14 +15,20 @@
         @endif
     </p>
     <div class="d-flex justify-content-between align-items-center">
+        <h4 class="text-secondary">View marks </h4>
         @guest('student')
             <a href="{{ route(auth()->user()?->getUserType() . '.marks.create') }}" class="btn btn-primary">New
-            marks</a>@endguest
+            marks</a>
+        @endguest
     </div>
     @if ($student || $module)
         <div>
             <form action="{{ url()->current() }}" method="GET">
                 <label for="semester" class="font-weight-bold d-block">Semester: </label>
+                <div class="d-inline-block form-check">
+                    <input checkedid="all" class="form-check-input" name="semester" value="" type="radio">
+                    <label class="form-check-label" for="all">All</label>
+                </div>
                 <div class="d-inline-block form-check">
                     <input @if (old('semester') == 'I') checked @endif id="I" name="semester" value="I" class="form-check-input" type="radio">
                     <label class="form-check-label" for="I">I (ONE)</label>
@@ -65,7 +71,6 @@
             
             @endif --}}
             @if (!isset($_GET['students']) && !isset($_GET['modules']))
-                <h4 class="text-secondary">View marks </h4>
                 <ul class="list-group my-2" style="max-width: 300px;">
                     @guest('student')
                         <li class="list-group-item">
@@ -92,7 +97,7 @@
             @endif
             @if (isset($_GET['students']))
                 @if (count($students))
-                    <div class="p-2 mb-4">
+                    {{-- <div class="p-2 mb-4">
                         <form style="max-width: 500px;" action="" class="d-flex justify-content-between align-items-center"
                             method="get">
                             <div style="position: relative;" class="flex-grow-1 form-group d-flex align-items-center">
@@ -102,7 +107,7 @@
                             </div>
                             <button type="submit" class="btn btn-lg ml-2 btn-secondary">Search</button>
                         </form>
-                    </div>
+                    </div> --}}
                 @endif
 
                 <div>
@@ -114,9 +119,7 @@
                         @empty
                             <p>No students found.
                                 @auth('admin')
-                                    <a href="{{ route(auth()->user()?->getUserType() . '.student.create') }}"
-                                        class="btn btn-link">New
-                                        student</a>
+                                    <a href="{{ route(auth()->user()?->getUserType() . '.student.create') }}" class="btn btn-link">New student</a>
                                 @endauth
                         @endforelse
                     </ul>

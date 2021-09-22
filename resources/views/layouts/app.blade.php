@@ -20,6 +20,9 @@
             @auth
                 <li class="nav-item"><a href="{{ route(auth()->user()?->getUserType() . '.dashboard') }}" class="nav-link">Dashboard</a></li>
             @endauth
+            @auth('student')
+                <li class="nav-item"><a href="{{ route(auth()->user()?->getUserType() . '.marks.index') }}" class="nav-link font-weight-bold btn btn-success align-self-center my-1 btn-sm py-1">Marks</a></li>
+            @endauth
         </ul>
         <ul class="navbar-nav @auth
             

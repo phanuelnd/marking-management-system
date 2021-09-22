@@ -34,15 +34,15 @@
             @endisset
         </div>
     @endif
-    <div class="p-2 mb-4">
-        <form style="max-width: 500px;" action="" class="d-flex justify-content-between align-items-center" method="get">
+    <div class="p-2 mb-2">
+        {{-- <form style="max-width: 500px;" action="" class="d-flex justify-content-between align-items-center" method="get">
             <div style="position: relative;" class="flex-grow-1 form-group d-flex align-items-center">
                 <img style="position: absolute;left: 20px;" src="/icons/search.svg" alt="search icon">
                 <input type="text" placeholder="Students" name="search"
                     class="form-control rounded-pill px-4 py-3 pl-5" id="">
             </div>
             <button type="submit" class="btn btn-lg ml-2 btn-secondary">Search</button>
-        </form>
+        </form> --}}
         
     </div>
     @foreach ($students as $student)
