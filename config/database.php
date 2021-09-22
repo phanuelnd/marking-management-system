@@ -73,7 +73,7 @@ return [
             'database' => ltrim($DATABASE_URL['path'], '/'), //env('DB_DATABASE', 'forge'),
             'username' => $DATABASE_URL['user'], //env('DB_USERNAME', 'forge'),
             'password' => $DATABASE_URL['pass'], //env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
+            'charset' => 'utf8mb4',
             'prefix' => '',
             'prefix_indexes' => true,
             'schema' => 'public',
