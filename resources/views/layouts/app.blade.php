@@ -25,10 +25,10 @@
             
         @endauth">
             @auth('admin')
-                <x-nav.admin-dropdown />
+                {{-- <x-nav.admin-dropdown /> --}}
             @endauth
             @auth('teacher')
-                <x-nav.teacher-dropdown />
+                {{-- <x-nav.teacher-dropdown /> --}}
             @endauth
             @guest('teacher')
                 @guest('student')

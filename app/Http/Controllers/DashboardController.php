@@ -29,7 +29,6 @@ class DashboardController extends Controller
         ]);
 
 
-
         $request->flash();
 
         $marks = Mark::join('students', 'students.id', '=', 'marks.student_id')
@@ -81,6 +80,8 @@ class DashboardController extends Controller
             $modules = Module::hasStudent(auth()->user()->id)->get()->all();
             $teachers = Teacher::hasStudent(auth()->user()->id);
         }
+
+        // dd($foculties, $modules, $teachers, $marks);
 
         return view('admin.dashboard', [
             'modules' => $modules,
