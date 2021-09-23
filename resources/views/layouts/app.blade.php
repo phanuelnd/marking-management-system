@@ -22,17 +22,16 @@
                 @endauth
                 @auth('student')
                 <li class="nav-item"><a href="{{ route(auth()->user()?->getUserType() . '.marks.index') }}" class="nav-link">My marks</a></li>
-                {{-- <li class="nav-item"><a href="{{ route(auth()->user()?->getUserType() . '.marks.index') }}" class="nav-link align-self-center font-weight-bold mt-2 btn-sm py-1">See Marks</a></li> --}}
             @endauth
         </ul>
         <ul class="navbar-nav @auth
             
         @endauth">
             @auth('admin')
-                {{-- <x-nav.admin-dropdown /> --}}
+                <x-nav.admin-dropdown />
             @endauth
             @auth('teacher')
-                {{-- <x-nav.teacher-dropdown /> --}}
+                <x-nav.teacher-dropdown />
             @endauth
             @guest('teacher')
                 @guest('student')
