@@ -34,7 +34,7 @@
             </ul>
         </div> --}}
         <div class="col-sm-12">
-            <div class="leftbar-search p-2">
+            {{-- <div class="leftbar-search p-2">
                 <form action="" class="d-flex justify-content-between align-items-center" method="GET">
                     <div style="position: relative;" class="flex-grow-1 form-group d-flex align-items-center">
                         <img style="position: absolute;left: 20px;" src="/icons/search.svg" alt="search icon">
@@ -44,7 +44,7 @@
                     <button type="submit" class="btn btn-lg ml-2 btn-outline-secondary">Search</button>
                 </form>
                 
-            </div>
+            </div> --}}
         @section('admin-content')
 
         @show

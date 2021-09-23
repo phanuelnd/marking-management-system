@@ -26,7 +26,7 @@
             @endisset
         </div>
     @endif
-    <div class="p-2 mb-4">
+    {{-- <div class="p-2 mb-4">
         <form style="max-width: 500px;" action="" class="d-flex justify-content-between align-items-center" method="get">
             <div style="position: relative;" class="flex-grow-1 form-group d-flex align-items-center">
                 <img style="position: absolute;left: 20px;" src="/icons/search.svg" alt="search icon">
@@ -36,7 +36,7 @@
             <button type="submit" class="btn btn-lg ml-2 btn-secondary">Search</button>
         </form>
         
-    </div>
+    </div> --}}
     @foreach ($teachers as $teacher)
         <div class="d-flex align-items-center rounded-pill p-1 m-1">
             <div>

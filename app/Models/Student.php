@@ -91,4 +91,10 @@ class Student extends Authenticatable
     {
         static::addGlobalScope(new ConfirmScope);
     }
+
+    public function getUserType()
+    {
+        $name = explode('\\', strtolower(__CLASS__));
+        return end($name);
+    }
 }

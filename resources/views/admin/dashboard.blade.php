@@ -2,18 +2,10 @@
 
 @section('title', ucfirst(auth()->user()?->getUserType()) . ' Dashboard')
 
-@section('scripts')
-    <script defer>
-        // window.URLSearchParams()
-    </script>
-@endsection
-
 @section('admin-content')
 
-    {{-- filters --}}
     <form action="{{ url()->current() }}" method="GET" class="d-flex flex-wrap align-items-center flex-row form-inline">
         <div class="form-group mt-2 ml-1">
-            {{-- @csrf --}}
             <select id="mod" name="module"
                 class="form-control {{ old('module') ? 'border border-success' : '' }} @error('module')
                 border-danger @enderror">
@@ -89,8 +81,6 @@
     </form>
 
 
-    {{-- end filters --}}
-    {{-- table --}}
     @if (count($marks))
         <table class="marks-table">
             <thead>
@@ -116,11 +106,10 @@
             </td>
             <td><a href="{{ route(auth()->user()?->getUserType() . '.module.show', $mark->module) }}">{{ $mark->module?->name }}</a></td>
             <td>
-                @auth('admin')
+                
                     
-                <a
-                href="{{ route(auth()->user()?->getUserType() . '.teacher.show', $mark->module?->teacher) }}">{{ $mark->module?->teacher->name }}</a>
-                @endauth
+                <a @guest('teacher') href="{{ route(auth()->user()?->getUserType() . '.teacher.show', $mark->module?->teacher) }}" @endguest >{{ $mark->module?->teacher->name }}</a>
+                
                 @auth('teacher')
                 <a>{{ $mark->module?->teacher->name }}</a>
                 @endauth
@@ -138,5 +127,4 @@
         </tbody>
         </table>
     @endif
-    {{-- end table --}}
 @endsection

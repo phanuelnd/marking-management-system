@@ -81,7 +81,7 @@ class DashboardController extends Controller
             $teachers = Teacher::hasStudent(auth()->user()->id);
         }
 
-        // dd($foculties, $modules, $teachers, $marks);
+        // dd('')
 
         return view('admin.dashboard', [
             'modules' => $modules,

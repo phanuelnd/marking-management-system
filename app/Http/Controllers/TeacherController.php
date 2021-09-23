@@ -121,6 +121,6 @@ class TeacherController extends Controller
     {
         $teacher->delete();
 
-        return back()->with('success', 'Teacher deleted!');
+        return redirect()->route('admin.teacher.index')->with('success', 'Teacher deleted!');
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Student;
+use App\Models\Teacher;
+use App\Scopes\ConfirmScope;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -46,6 +49,14 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+        });
+
+        Route::bind('student', function ($value) {
+            return Student::withoutGlobalScope(ConfirmScope::class)->find($value);
+        });
+
+        Route::bind('teacher', function ($value) {
+            return Teacher::withoutGlobalScope(ConfirmScope::class)->find($value);
         });
     }
 

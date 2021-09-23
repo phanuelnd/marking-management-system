@@ -44,4 +44,11 @@ class Admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getUserType()
+    {
+        $name = explode('\\', strtolower(__CLASS__));
+        return end($name);
+    }
 }
+// Okay

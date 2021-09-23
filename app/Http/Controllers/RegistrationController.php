@@ -37,7 +37,7 @@ class RegistrationController extends Controller
 
     public function confirmStudent(Student $student)
     {
-        $student->update(['confirmed_at' =>  date('Y-m-d h:i:s')]);
+        $student->update(['confirmed_at' =>  now()]);
         return back()->with('success' . $student->id, 'Student registration confirmed!');
     }
 

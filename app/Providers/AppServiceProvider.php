@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Student;
 use App\Models\Teacher;
+use Exception;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Database\QueryException;
@@ -29,12 +30,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+        try {
 
-        // try {
-        //     View::share('student_confirm_count', Student::unconfirmed()->count());
-        //     View::share('teacher_confirm_count', Teacher::unconfirmed()->count());
-        // } catch (QueryException $e) {
-        //     // dd($e);
-        // }
+            View::share('student_confirm_count', Student::unconfirmed()->count());
+            View::share('teacher_confirm_count', Teacher::unconfirmed()->count());
+        } catch (Exception $e) {
+        }
     }
 }

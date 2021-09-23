@@ -5,8 +5,9 @@
 
 @section('content')
 <p>
+    @guest('student')
     <a href="{{route(auth()->user()?->getUserType() . '.foculty.index')}}" class="text-primary">Foculties</a>
-    ><a href="{{route(auth()->user()?->getUserType() . '.foculty.show', $foculty)}}" class="text-primary">{{$foculty->name}}</a>
+    >@endguest<a href="{{route(auth()->user()?->getUserType() . '.foculty.show', $foculty)}}" class="text-primary">{{$foculty->name}}</a>
 </p>
 <div class="card">
     <div class="card-header">
@@ -21,7 +22,9 @@
         <div class="card-body">
             <div class="d-flex align-items-center">
                 <a href="{{route(auth()->user()?->getUserType() . '.module.index')}}?foculty={{$foculty->id}}" class="btn btn-link">Modules ({{$foculty->modules->count()}})</a>
+                @guest('student')
                 <a href="{{route(auth()->user()?->getUserType() . '.student.index')}}?foculty={{$foculty->id}}" class="btn btn-link">Students ({{$foculty->students->count()}})</a>
+                @endguest
             </div>
         </div>
     </div>

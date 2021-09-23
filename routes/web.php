@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FocultyController;
 use Illuminate\Support\Facades\Route;
@@ -108,11 +109,16 @@ Route::name('admin.')->prefix('admin')->middleware(['auth:admin'])->group(functi
     Route::resource('foculty', FocultyController::class);
 
     // STUDENT REGISTRATION
-    Route::get('/student/reg/list', [RegistrationController::class, 'listStudents'])->name('student.reg.list');
-    Route::get('/student/reg/rejected', [RegistrationController::class, 'listRejectedStudents'])->name('student.reg.rejected');
-    Route::post('/student/{student}/reg/confirm', [RegistrationController::class, 'confirmStudent'])->name('student.reg.confirm');
-    Route::post('/student/{student}/reg/reject', [RegistrationController::class, 'rejectStudent'])->name('student.reg.reject');
-    Route::post('/student/{student}/reg/restore', [RegistrationController::class, 'restoreStudent'])->name('student.reg.restore');
+    Route::get('/student/reg/list', [RegistrationController::class, 'listStudents'])
+        ->name('student.reg.list');
+    Route::get('/student/reg/rejected', [RegistrationController::class, 'listRejectedStudents'])
+        ->name('student.reg.rejected');
+    Route::post('/student/{student}/reg/confirm', [RegistrationController::class, 'confirmStudent'])
+        ->name('student.reg.confirm');
+    Route::post('/student/{student}/reg/reject', [RegistrationController::class, 'rejectStudent'])
+        ->name('student.reg.reject');
+    Route::post('/student/{student}/reg/restore', [RegistrationController::class, 'restoreStudent'])
+        ->name('student.reg.restore');
 
 
     // TEACHER REGISTRATION
@@ -124,6 +130,12 @@ Route::name('admin.')->prefix('admin')->middleware(['auth:admin'])->group(functi
 
     // ADMIN LOGOUT
     Route::post('/logout', [LogoutController::class, 'adminLogout'])->name('logout')->middleware('auth:admin');
+
+    // Account
+    Route::get('/account', [AccountController::class, 'index'])->name('account');
+    Route::post('/account/personal', [AccountController::class, 'changePersonal'])->name('account.personal');
+    Route::post('/account/email', [AccountController::class, 'changeEmail'])->name('account.email');
+    Route::post('/account/password', [AccountController::class, 'changePassword'])->name('account.password');
 });
 
 /**
@@ -134,12 +146,20 @@ Route::name('admin.')->prefix('admin')->middleware(['auth:admin'])->group(functi
 
 Route::name('teacher.')->prefix('teacher')->middleware('auth:teacher')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     // RESOURCES
-    Route::resource('student', StudentController::class)->only(['show']);
+    Route::get('/student/{student}', [StudentController::class, 'show'])->name('student.show');
     Route::get('/student', [StudentController::class, 'teacherStudents'])->name('student.index');
     Route::resource('module', ModuleController::class)->only(['show', 'index']);
     Route::resource('marks', MarkController::class);
     Route::resource('foculty', FocultyController::class)->only(['index', 'show']);
+    Route::get('/account', [AccountController::class, 'index'])->name('account');
+
+    // Account
+    Route::get('/account', [AccountController::class, 'index'])->name('account');
+    Route::post('/account/personal', [AccountController::class, 'changePersonal'])->name('account.personal');
+    Route::post('/account/email', [AccountController::class, 'changeEmail'])->name('account.email');
+    Route::post('/account/password', [AccountController::class, 'changePassword'])->name('account.password');
 
     // TEACHER LOGOUT
     Route::post('/logout', [LogoutController::class, 'teacherLogout'])->name('logout')->middleware('auth:teacher');
@@ -154,9 +174,16 @@ Route::name('teacher.')->prefix('teacher')->middleware('auth:teacher')->group(fu
 Route::name('student.')->middleware('auth:student')->prefix('student')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::resource('teacher', TeacherController::class)->only(['show']);
     Route::resource('module', ModuleController::class)->only(['show', 'index']);
     Route::resource('marks', MarkController::class)->only(['index', 'show']);
-    Route::resource('foculty', MarkController::class)->only(['show']);
+    Route::resource('foculty', FocultyController::class)->only(['show']);
+    // Account
+    Route::get('/account', [AccountController::class, 'index'])->name('account');
+    Route::post('/account/personal', [AccountController::class, 'changePersonal'])->name('account.personal');
+    Route::post('/account/email', [AccountController::class, 'changeEmail'])->name('account.email');
+    Route::post('/account/password', [AccountController::class, 'changePassword'])->name('account.password');
+
 
     Route::post('/logout', [LogoutController::class, 'studentLogout'])->name('logout')->middleware('auth:student');
 });

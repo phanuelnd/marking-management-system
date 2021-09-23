@@ -95,6 +95,6 @@ class FocultyController extends Controller
     {
         $foculty->delete();
 
-        return back()->with('success', 'Foculty deleted!');
+        return redirect()->route('admin.foculty.index')->with('success', 'Foculty deleted!');
     }
 }

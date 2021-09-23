@@ -56,7 +56,7 @@ class MarkController extends Controller
             }
 
             $module = $module->with('marks', function ($query) use ($request) {
-                if ($request->has('semester')) {
+                if ($request->get('semester', null)) {
                     $query->where('semester', $request->semester);
                 }
             })->find($request->module);
@@ -70,13 +70,13 @@ class MarkController extends Controller
             }
 
             $student = $student->with('marks', function ($query) use ($request) {
-                if ($request->has('semester')) {
+                if ($request->get('semester', null)) {
                     $query->where('semester', $request->semester);
                 }
             })->find($request->student);
         }
 
-        if ($request->has('semester')) {
+        if ($request->get('semester', null)) {
             $semester = $request->semester;
         }
 
@@ -215,7 +215,6 @@ class MarkController extends Controller
     public function destroy(Mark $mark)
     {
         $mark->delete();
-
-        return back()->with('success', 'Marks deleted!');
+        return redirect()->route('admin.marks.index')->with('success', 'Marks deleted!');
     }
 }
