@@ -17,7 +17,11 @@ class Mark extends Model
         'module_id',
         'marks',
         'semester',
-        'teacher_id'
+        'teacher_id',
+        'formative',
+        'summative',
+        'total',
+        'decision'
     ];
 
     public function student()

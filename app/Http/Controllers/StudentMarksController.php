@@ -28,10 +28,18 @@ class StudentMarksController extends Controller
      */
     public function store(Request $request, Student $student)
     {
-        $fields = $request->validate([]);
+        $fields = $request->validate([
+            'module_id' => "required|exists:modules,id",
+            'semester' => "required|in:I,II,III",
+            'formative' => "required|numeric|max:50",
+            'summative' => "required|numeric|max:50",
+        ]);
+
+        $fields['total'] = (int) $fields['formative'] + (int) $fields['summative'];
+        $fields['decision'] = $fields['total'] >= 50 ? true : false;
 
         $marks = $student->marks()->create($fields);
 
-        return response($marks);
+        return response($marks, 201);
     }
 }
