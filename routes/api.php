@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DepartmentModuleController;
+use App\Http\Controllers\ModuleMarksController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentMarksController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,5 +34,10 @@ Route::apiResource('teachers', TeacherController::class);
 Route::apiResource('departments', DepartmentController::class);
 
 // Modules
-
 Route::apiResource('departments.modules', DepartmentModuleController::class)->shallow();
+
+// Marks - (Module)
+Route::apiResource('modules.marks', ModuleMarksController::class)->shallow();
+
+// Marks - (Student)
+Route::apiResource('students.marks', StudentMarksController::class)->only(['index', 'store']);
