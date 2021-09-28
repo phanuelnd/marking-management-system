@@ -17,6 +17,6 @@ class ConfirmScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('confirmed_at', '!=', null);
+        // $builder->where('confirmed_at', '!=', null);
     }
 }

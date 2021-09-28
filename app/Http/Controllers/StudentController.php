@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+// use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -26,7 +30,20 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:students,email',
+            'phone' => 'numeric',
+            'password' => 'required|confirmed',
+            'index_number' => 'required',
+            'foculty_id' => 'required|exists:foculties,id',
+        ]);
+
+        $fields['password'] = Hash::make($request->password);
+
+        $student = Student::create($fields);
+
+        return response($student, 201);
     }
 
     /**
@@ -35,9 +52,9 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Student $student)
     {
-        //
+        return response($student);
     }
 
     /**
@@ -47,9 +64,18 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Student $student)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'string',
+            'phone' => 'numeric',
+            'email' => Rule::unique('students', 'email')->ignore($student->id),
+            'index_number' => 'string',
+
+        ]);
+
+        $student->update($fields);
+        return response($student);
     }
 
     /**
@@ -58,8 +84,10 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Student $student)
     {
-        //
+        $deleted = $student->delete();
+
+        return response(['deleted' => $deleted], 203);
     }
 }
