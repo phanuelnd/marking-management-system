@@ -6,7 +6,6 @@ use App\Models\Student;
 // use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
@@ -88,6 +87,6 @@ class StudentController extends Controller
     {
         $deleted = $student->delete();
 
-        return response(['deleted' => $deleted], 203);
+        return response(['deleted' => $deleted], 200);
     }
 }

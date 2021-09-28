@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
@@ -14,7 +16,8 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        //
+        $teachers = Teacher::paginate(20);
+        return response($teachers);
     }
 
     /**
@@ -25,7 +28,18 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:teachers,email',
+            'phone' => 'numeric',
+            'password' => 'required|confirmed'
+        ]);
+
+        $fields['password'] = Hash::make($request->password);
+
+        $teacher = Teacher::create($fields);
+
+        return response($teacher, 201);
     }
 
     /**
@@ -36,7 +50,7 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        //
+        return response($teacher);
     }
 
     /**
@@ -48,7 +62,14 @@ class TeacherController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'string',
+            'phone' => 'numeric',
+            'email' => Rule::unique('teachers', 'email')->ignore($teacher->id),
+        ]);
+
+        $teacher->update($fields);
+        return response($teacher);
     }
 
     /**
@@ -59,6 +80,8 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        $deleted = $teacher->delete();
+
+        return response(['deleted' => $deleted], 200);
     }
 }
