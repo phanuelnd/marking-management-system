@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DepartmentModuleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
@@ -29,3 +30,7 @@ Route::apiResource('teachers', TeacherController::class);
 
 // Departments
 Route::apiResource('departments', DepartmentController::class);
+
+// Modules
+
+Route::apiResource('departments.modules', DepartmentModuleController::class)->shallow();
