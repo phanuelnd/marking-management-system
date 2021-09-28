@@ -25,3 +25,5 @@ Route::apiResource('students', StudentController::class);
 
 // Teacher routes
 Route::apiResource('teachers', TeacherController::class);
+
+// 
