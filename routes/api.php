@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
@@ -26,4 +27,5 @@ Route::apiResource('students', StudentController::class);
 // Teacher routes
 Route::apiResource('teachers', TeacherController::class);
 
-// 
+// Departments
+Route::apiResource('departments', DepartmentController::class);

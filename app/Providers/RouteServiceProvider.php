@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Foculty;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Scopes\ConfirmScope;
@@ -51,12 +52,16 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
 
-        Route::bind('student', function ($value) {
-            return Student::withoutGlobalScope(ConfirmScope::class)->find($value);
-        });
+        // Route::bind('student', function ($value) {
+        //     return Student::withoutGlobalScope(ConfirmScope::class)->find($value);
+        // });
 
-        Route::bind('teacher', function ($value) {
-            return Teacher::withoutGlobalScope(ConfirmScope::class)->find($value);
+        // Route::bind('teacher', function ($value) {
+        //     return Teacher::withoutGlobalScope(ConfirmScope::class)->find($value);
+        // });
+
+        Route::bind('department', function ($value) {
+            return Foculty::findOrFail($value);
         });
     }
 
