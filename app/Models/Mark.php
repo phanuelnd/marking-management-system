@@ -21,7 +21,8 @@ class Mark extends Model
         'formative',
         'summative',
         'total',
-        'decision'
+        'decision',
+        'academic_year'
     ];
 
     public function student()

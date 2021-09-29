@@ -33,6 +33,7 @@ class StudentMarksController extends Controller
             'semester' => "required|in:I,II,III",
             'formative' => "required|numeric|max:50",
             'summative' => "required|numeric|max:50",
+            'academic_year' => 'required|regex:/^(\d){4}+ (-|\/) +(\d){4}$/'
         ]);
 
         $fields['total'] = (int) $fields['formative'] + (int) $fields['summative'];
