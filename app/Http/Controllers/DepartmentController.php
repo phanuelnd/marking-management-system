@@ -14,7 +14,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $foculties = Foculty::paginate(20);
+        $foculties = Foculty::paginate(5);
         return response($foculties);
     }
 
@@ -26,7 +26,7 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = $request->validate(['name' => 'required|string']);
+        $fields = $request->validate(['name' => 'required|string|unique:foculties,name']);
         $foculty = Foculty::create($fields);
         return response($foculty, 201);
     }
