@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Mark;
 use App\Models\Module;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ModuleMarksController extends Controller
 {
@@ -30,10 +32,16 @@ class ModuleMarksController extends Controller
     {
         $fields = $request->validate([
             'student_id' => "required|exists:students,id",
-            'semester' => "required|in:I,II,III",
+            'semester' => "required|in:I,II",
             'formative' => "required|numeric|max:50",
             'summative' => "required|numeric|max:50",
+            'academic_year' => 'required|regex:/^(\d){4}+ (-|\/) +(\d){4}$/'
         ]);
+
+        $student = Student::find($request->student_id);
+        if ($student->foculty->id !== $module->foculty->id) {
+            // Validator::validat' => $student])
+        }
 
         $fields['total'] = (int) $fields['formative'] + (int) $fields['summative'];
         $fields['decision'] = $fields['total'] >= 50 ? true : false;

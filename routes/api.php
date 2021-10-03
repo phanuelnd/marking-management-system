@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DepartmentModuleController;
+use App\Http\Controllers\MarkController;
+use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ModuleMarksController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentMarksController;
@@ -34,9 +36,13 @@ Route::apiResource('teachers', TeacherController::class);
 Route::apiResource('departments', DepartmentController::class);
 
 // Modules
+Route::get('/modules', [ModuleController::class, 'index']);
+Route::post('/modules', [ModuleController::class, 'store']);
 Route::apiResource('departments.modules', DepartmentModuleController::class)->shallow();
 
 // Marks - (Module)
+Route::get('/marks', [MarkController::class, 'index']);
+Route::post('/marks', [MarkController::class, 'store']);
 Route::apiResource('modules.marks', ModuleMarksController::class)->shallow();
 
 // Marks - (Student)

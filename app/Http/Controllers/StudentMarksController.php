@@ -29,7 +29,7 @@ class StudentMarksController extends Controller
     {
         $fields = $request->validate([
             'module_id' => "required|exists:modules,id",
-            'semester' => "required|in:I,II,III",
+            'semester' => "required|in:I,II",
             'formative' => "required|numeric|max:50",
             'summative' => "required|numeric|max:50",
             'academic_year' => 'required|regex:/^(\d){4}+ (-|\/) +(\d){4}$/'
