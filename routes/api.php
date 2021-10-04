@@ -8,6 +8,7 @@ use App\Http\Controllers\ModuleMarksController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentMarksController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TeacherModuleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('students', StudentController::class);
 
 // Teacher routes
+Route::get('/teachers/{teacher}/modules', [TeacherModuleController::class, 'index']);
 Route::apiResource('teachers', TeacherController::class);
 
 // Departments
