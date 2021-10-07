@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DepartmentModuleController;
 use App\Http\Controllers\MarkController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\StudentMarksController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherModuleController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +25,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+
+// Auth routes
+Route::middleware('auth:sanctum')->get('/auth/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
 
 // Student routes
 Route::apiResource('students', StudentController::class);

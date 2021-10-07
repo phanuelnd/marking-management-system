@@ -11,10 +11,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use PHPUnit\Framework\MockObject\Builder\Stub;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Student extends Authenticatable
 {
-    use HasFactory, SoftDeletes;
+    use HasApiTokens, HasFactory, SoftDeletes;
 
     protected $guard = 'student';
 
