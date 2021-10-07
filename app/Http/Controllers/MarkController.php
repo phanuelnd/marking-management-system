@@ -6,14 +6,20 @@ use App\Models\Mark;
 use App\Models\Module;
 use App\Models\Student;
 use Illuminate\Auth\Events\Validated;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class MarkController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Mark::paginate(20);
+        // return response($request->all(), 400);
+        return response(Mark::where([
+            ["semester", "=", $request->semester],
+            ["academic_year", "=", $request->academic_year]
+        ])->paginate(20));
+        // return Mark::where([["semester", "=", "I"],["academic_year", "=", "2021-2022"]])->paginate(20);
     }
 
 
@@ -27,7 +33,7 @@ class MarkController extends Controller
                 'semester' => "required|in:I,II",
                 'formative' => "required|numeric|max:50",
                 'summative' => "required|numeric|max:50",
-                'academic_year' => ['required', 'regex:/^(\d){4}+ (-|\/) +(\d){4}$/']
+                'academic_year' => ['required', 'regex:/^(\d){4}+( |)(-|\/)( |)+(\d){4}$/']
             ],
         );
 
@@ -35,7 +41,7 @@ class MarkController extends Controller
         $validator->after(function ($validator) use ($request) {
             $student = Student::find($request->student_id);
             $module = Module::find($request->module_id);
-            if ($student && $module && $student->foculty->id !== $module->foculty->id) {
+            if ($student && $module && $student->foculty_id !== $module->foculty_id) {
                 $validator->errors()->add(
                     'module_id',
                     'Selected module don\'t exist student\'s department.'
