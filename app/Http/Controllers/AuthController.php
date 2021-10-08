@@ -16,10 +16,10 @@ class AuthController extends Controller
         $fields = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'user_type' => 'in:admin,student,teacher'
+            'user_type' => 'required|in:admin,student,teacher'
         ]);
 
-        $user = match ($request->user->type) {
+        $user = match ($request->user_type) {
             'admin' => Admin::where('email', $request->email)->first(),
             'teacher' => Teacher::where('email', $request->email)->first(),
             'student' => Student::where('email', $request->email)->first()
@@ -29,7 +29,8 @@ class AuthController extends Controller
             return response(['message' => "Incorrect email or password"], 400);
         }
 
-        $token = $user->createToken('my_user_token')->plainTextToken;
+        $token = $user->createToken('my_user_token', ['user:' . $request->user_type])->plainTextToken;
+        $user->type = $request->user_type;
 
         return response(['user' => $user, 'token' => $token]);
     }
@@ -38,7 +39,22 @@ class AuthController extends Controller
     {
         $user = $request->user();
 
-        $user->tokens->delete();
+        $user->tokens()->delete();
         return response(status: 200);
+    }
+
+    public function user(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->tokenCan('user:admin')) {
+            $user->type = 'admin';
+        } elseif ($user->tokenCan('user:teacher')) {
+            $user->type = 'teacher';
+        } elseif ($user->tokenCan('user:student')) {
+            $user->type = 'student';
+        }
+
+        return response($user);
     }
 }
