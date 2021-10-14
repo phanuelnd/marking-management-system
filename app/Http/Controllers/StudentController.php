@@ -15,9 +15,15 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::paginate(20);
+        $students = null;
+
+        if ($request->user()->tokenCan('user:teacher')) {
+            $students = Student::taughtBy($request->user()->id)->paginate(50);
+        } else {
+            $students = Student::paginate(50);
+        }
         return response($students);
     }
 
@@ -29,10 +35,14 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        if (!$request->user()->tokenCan('user:admin')) {
+            return response(status: 403);
+        }
+
         $fields = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:students,email',
-            'phone' => 'numeric',
+            'phone' => ['numeric', Rule::unique('students', 'phone')],
             'password' => 'required|confirmed',
             'index_number' => 'required',
             'foculty_id' => 'required|exists:foculties,id',
@@ -67,7 +77,7 @@ class StudentController extends Controller
     {
         $fields = $request->validate([
             'name' => 'string',
-            'phone' => 'numeric',
+            'phone' => ['numeric', Rule::unique('students', 'phone')->ignore($student->id)],
             'email' => Rule::unique('students', 'email')->ignore($student->id),
             'index_number' => 'string',
 

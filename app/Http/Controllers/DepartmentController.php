@@ -14,7 +14,14 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $foculties = Foculty::paginate(5);
+        $foculties = null;
+
+        if (request()->user()->tokenCan('user:teacher')) {
+            $foculties = Foculty::hasTeacher(request()->user()->id)->paginate(50);
+        } else {
+            $foculties = Foculty::paginate(50);
+        }
+
         return response($foculties);
     }
 

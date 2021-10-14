@@ -9,7 +9,16 @@ class ModuleController extends Controller
 {
     public function index()
     {
-        return Module::paginate(20);
+        $modules = null;
+        if (request()->user()->tokenCan('user:teacher')) {
+            $modules = request()->user()->modules()->paginate(50);
+        } elseif (request()->user()->tokenCan('user:student')) {
+            $modules = Module::hasStudent(request()->user()->id)->paginate(50);
+        } else {
+            $modules = Module::paginate(50);
+        }
+
+        return response($modules);
     }
 
     public function store(Request $request)
@@ -25,5 +34,10 @@ class ModuleController extends Controller
         $module = Module::create($fields);
 
         return response($module);
+    }
+
+    public function students(Module $module)
+    {
+        return $module->foculty->students()->paginate(50);
     }
 }

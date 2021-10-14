@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mark;
 use App\Models\Module;
 use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -15,10 +16,25 @@ class MarkController extends Controller
     public function index(Request $request)
     {
         // return response($request->all(), 400);
-        return response(Mark::where([
-            ["semester", "=", $request->semester],
-            ["academic_year", "=", $request->academic_year]
-        ])->paginate(20));
+        $user = $request->user();
+
+
+        $marks = Mark::where(function (Builder $query) use ($user, $request) {
+            if ($user->tokenCan('user:teacher')) {
+                $query->whereHas('module', function (Builder $query2) use ($user) {
+                    $query2->where('teacher_id', $user->id);
+                });
+            } elseif ($user->tokenCan('user:student')) {
+                $query->where('student_id', $user->id);
+            }
+
+            $query->where([
+                ["semester", "=", $request->semester],
+                ["academic_year", "=", $request->academic_year]
+            ])->paginate(20);
+        })->paginate(50);
+
+        return response($marks);
         // return Mark::where([["semester", "=", "I"],["academic_year", "=", "2021-2022"]])->paginate(20);
     }
 
@@ -41,11 +57,53 @@ class MarkController extends Controller
         $validator->after(function ($validator) use ($request) {
             $student = Student::find($request->student_id);
             $module = Module::find($request->module_id);
+
+            // check if student and module belongs to the same department
             if ($student && $module && $student->foculty_id !== $module->foculty_id) {
                 $validator->errors()->add(
                     'module_id',
                     'Selected module don\'t exist student\'s department.'
                 );
+                return;
+            }
+
+            // check if marks was already recorded
+            $marksExits = Mark::where(function (Builder $query) use ($request) {
+                $query->where('module_id', $request->module_id);
+                $query->where('student_id', $request->student_id);
+                $query->where('semester', $request->semester);
+                $query->where('academic_year', $request->academic_year);
+            })->count();
+
+            if ($marksExits) {
+                $validator->errors()->add(
+                    'student_id',
+                    'Marks already exists for the same student, module, academic year and semester'
+                );
+                $validator->errors()->add(
+                    'module_id',
+                    ''
+                );
+                $validator->errors()->add(
+                    'academic_year',
+                    ''
+                );
+                $validator->errors()->add(
+                    'semester',
+                    ''
+                );
+            }
+
+            // check if teacher teaches the module
+            if (!$request->user()->tokenCan('user:teacher')) {
+                // if current user is not a teacher
+                return;
+            }
+
+            // if current user is a teacher
+            // check if the current teacher is the module teacher
+            if ($request->user()->id !== $module->teacher_id) {
+                $validator->errors()->add('module_id', 'You are not allowed to record marks for this module');
             }
         });
 

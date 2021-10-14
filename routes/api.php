@@ -10,6 +10,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentMarksController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherModuleController;
+use App\Http\Controllers\UserUpdateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,31 +26,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::group(function () {
+// User Update routes
+Route::middleware(['auth:sanctum', 'user_type'])->post('/auth/user/change-info', [UserUpdateController::class, 'changeInfo']);
+Route::middleware(['auth:sanctum', 'user_type'])->post('/auth/user/change-password', [UserUpdateController::class, 'changePassword']);
 
 // Auth routes
 Route::middleware('auth:sanctum')->get('/auth/user', [AuthController::class, 'user']);
-Route::post('/auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 'logout']);
 
 // Student routes
-Route::apiResource('students', StudentController::class);
+Route::middleware('auth:sanctum')->apiResource('students', StudentController::class);
 
 // Teacher routes
-Route::get('/teachers/{teacher}/modules', [TeacherModuleController::class, 'index']);
-Route::apiResource('teachers', TeacherController::class);
+Route::middleware('auth:sanctum')->get('/teachers/{teacher}/modules', [TeacherModuleController::class, 'index']);
+Route::middleware('auth:sanctum')->apiResource('teachers', TeacherController::class);
 
 // Departments
-Route::apiResource('departments', DepartmentController::class);
+Route::middleware('auth:sanctum')->apiResource('departments', DepartmentController::class);
 
 // Modules
-Route::get('/modules', [ModuleController::class, 'index']);
-Route::post('/modules', [ModuleController::class, 'store']);
-Route::apiResource('departments.modules', DepartmentModuleController::class)->shallow();
+Route::middleware('auth:sanctum')->get('/modules', [ModuleController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/modules/{module}/students', [ModuleController::class, 'students']);
+Route::middleware('auth:sanctum')->post('/modules', [ModuleController::class, 'store']);
+Route::middleware('auth:sanctum')->apiResource('departments.modules', DepartmentModuleController::class)->shallow();
 
 // Marks - (Module)
-Route::get('/marks', [MarkController::class, 'index']);
-Route::post('/marks', [MarkController::class, 'store']);
-Route::apiResource('modules.marks', ModuleMarksController::class)->shallow();
+Route::middleware('auth:sanctum')->get('/marks', [MarkController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/marks', [MarkController::class, 'store']);
+Route::middleware('auth:sanctum')->apiResource('modules.marks', ModuleMarksController::class)->shallow();
 
 // Marks - (Student)
-Route::apiResource('students.marks', StudentMarksController::class)->only(['index', 'store']);
+Route::middleware('auth:sanctum')->apiResource('students.marks', StudentMarksController::class)->only(['index', 'store']);
+// });
+
+
+// Login route
+Route::post('/auth/login', [AuthController::class, 'login']);

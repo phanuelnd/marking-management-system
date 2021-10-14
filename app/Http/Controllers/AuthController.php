@@ -39,8 +39,11 @@ class AuthController extends Controller
     {
         $user = $request->user();
 
-        $user->tokens()->delete();
-        return response(status: 200);
+        if ($user->tokens()->delete()) {
+            return response(status: 200);
+        }
+
+        return response(status: 403);
     }
 
     public function user(Request $request)

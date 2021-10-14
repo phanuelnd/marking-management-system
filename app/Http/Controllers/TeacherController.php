@@ -31,7 +31,7 @@ class TeacherController extends Controller
         $fields = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:teachers,email',
-            'phone' => 'numeric',
+            'phone' => ['numeric', Rule::unique('teachers', 'phone')],
             'password' => 'required|confirmed'
         ]);
 
@@ -64,7 +64,7 @@ class TeacherController extends Controller
     {
         $fields = $request->validate([
             'name' => 'string',
-            'phone' => 'numeric',
+            'phone' => ['numeric', Rule::unique('teachers', 'phone')->ignore($teacher->id)],
             'email' => Rule::unique('teachers', 'email')->ignore($teacher->id),
         ]);
 
