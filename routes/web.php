@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return response('Welcome you can access api at /api/..');
+    return view('index');
 });
