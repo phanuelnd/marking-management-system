@@ -58,8 +58,6 @@ Route::middleware('auth:sanctum')->apiResource('modules.marks', ModuleMarksContr
 
 // Marks - (Student)
 Route::middleware('auth:sanctum')->apiResource('students.marks', StudentMarksController::class)->only(['index', 'store']);
-// });
-
 
 // Login route
 Route::post('/auth/login', [AuthController::class, 'login']);
