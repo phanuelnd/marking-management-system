@@ -18,7 +18,19 @@ class ModuleMarksController extends Controller
      */
     public function index(Module $module)
     {
-        return response($module->marks()->paginate(20));
+        $user = request()->user();
+
+        if ($user->tokenCan("user:student")) {
+            $marks = $module->marks()->where("student_id", $user->id)->paginate(20);
+        } elseif ($user->tokenCan("user:teacher")){
+            $marks = $module->marks()->whereHas("module", function ($query) {
+                $query->where("teacher_id", request()->user()->id);
+            })->paginate(20);
+        } else {
+            $marks = $module->marks()->paginate(20);
+        }
+
+        return response($marks);
     }
 
     /**
