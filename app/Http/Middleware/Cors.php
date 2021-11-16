@@ -14,6 +14,7 @@ class Cors
      * @param  \Closure  $next
      * @return mixed
      */
+<<<<<<< HEAD
     public function handle($request, Closure $next)
     {
 
@@ -22,5 +23,15 @@ class Cors
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
             ->header('Access-Control-Allow-Headers', ' Origin, Content-Type, Accept, Authorization, X-Request-With')
             ->header('Access-Control-Allow-Credentials', ' true');
+=======
+    public function handle(Request $request, Closure $next)
+    {
+        // header('Access-Control-Allow-Origin:  *');
+        header('Access-Control-Allow-Origin:  http://localhost:3000');
+        header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Authorization, Origin');
+        header('Access-Control-Allow-Methods:  POST, PUT');
+
+        return $next($request);
+>>>>>>> api
     }
 }

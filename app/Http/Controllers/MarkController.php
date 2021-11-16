@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Mark;
 use App\Models\Module;
 use App\Models\Student;
@@ -15,9 +14,7 @@ class MarkController extends Controller
 {
     public function index(Request $request)
     {
-        // return response($request->all(), 400);
         $user = $request->user();
-
 
         $marks = Mark::where(function (Builder $query) use ($user, $request) {
             if ($user->tokenCan('user:teacher')) {
@@ -35,7 +32,6 @@ class MarkController extends Controller
         })->paginate(50);
 
         return response($marks);
-        // return Mark::where([["semester", "=", "I"],["academic_year", "=", "2021-2022"]])->paginate(20);
     }
 
 
