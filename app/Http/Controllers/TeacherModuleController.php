@@ -11,7 +11,7 @@ class TeacherModuleController extends Controller
 {
     public function index(Teacher $teacher)
     {
-        return response($teacher->modules()->paginate(10));
+        return response($teacher->modules()->paginate(20));
     }
 
     public function getDepartments(Teacher $teacher)

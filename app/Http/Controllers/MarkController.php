@@ -74,19 +74,7 @@ class MarkController extends Controller
             if ($marksExits) {
                 $validator->errors()->add(
                     'student_id',
-                    'Marks already exists for the same student, module, academic year and semester'
-                );
-                $validator->errors()->add(
-                    'module_id',
-                    ''
-                );
-                $validator->errors()->add(
-                    'academic_year',
-                    ''
-                );
-                $validator->errors()->add(
-                    'semester',
-                    ''
+                    'Marks for this student, module, academic year and semester already exists'
                 );
             }
 

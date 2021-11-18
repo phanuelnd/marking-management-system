@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->post('/auth/logout', [AuthController::class, 
 
 // Student routes
 Route::middleware('auth:sanctum')->apiResource('students', StudentController::class);
+Route::middleware('auth:sanctum')->get('/students/{student}/modules', [StudentController::class, 'modules']);
 
 // Teacher routes
 Route::middleware('auth:sanctum')->get('/teachers/{teacher}/modules', [TeacherModuleController::class, 'index']);

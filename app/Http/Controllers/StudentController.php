@@ -99,4 +99,15 @@ class StudentController extends Controller
 
         return response(['deleted' => $deleted], 200);
     }
+
+    /**
+     * Returns a list of student modules
+     *
+     * @param Student $student
+     * @return \Illuminate\Http\Response
+     */
+    public function modules(Student $student)
+    {
+        return response($student->foculty->modules()->paginate(20));
+    }
 }
