@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Mark;
 use App\Models\Module;
 use App\Models\Student;
@@ -76,6 +77,11 @@ class MarkController extends Controller
                     'student_id',
                     'Marks for this student, module, academic year and semester already exists'
                 );
+            }
+
+            // check if current user is a student
+            if ($request->user()->tokenCan('user:student')) {
+                $validator->errors()->add('module_id', 'You are not allowed to record marks for this module');
             }
 
             // check if teacher teaches the module
